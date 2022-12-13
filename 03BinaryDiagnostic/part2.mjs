@@ -11,14 +11,10 @@ file.on('line', (line) => {
     grid.push(line.split(''))
 })
 
-const mostCommonDigit = function(str, keep) {
-    // this can be simplified massively
+const getDigitToKeep = function(str, keep) {
     const strMinusZeros = str.replace(/0/g, '')
-    if (strMinusZeros.length == str.length / 2.0) {
-        return keep
-    }
     const oppositeOfKeep = keep === '1' ? '0' : '1'
-    return (strMinusZeros.length > (str.length / 2.0)) ? keep : oppositeOfKeep
+    return (strMinusZeros.length >= (str.length / 2.0)) ? keep : oppositeOfKeep
 }
 
 const getRating = function(grid, keep) {
@@ -26,13 +22,12 @@ const getRating = function(grid, keep) {
     let workingCopyGrid = [...grid]
     while (i <= grid[0].length) {
         const column = workingCopyGrid.reduce((acc, cur) => acc + cur[i], '')
-        const mostCommon = mostCommonDigit(column, keep)
+        const mostCommon = getDigitToKeep(column, keep)
         workingCopyGrid = workingCopyGrid.filter((row) => row[i] === mostCommon)
         if (workingCopyGrid.length === 1) {
             break
         }
         i += 1
-        
     }
     return workingCopyGrid[0].join('')
 }
