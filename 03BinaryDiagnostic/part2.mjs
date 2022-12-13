@@ -11,31 +11,34 @@ file.on('line', (line) => {
     grid.push(line.split(''))
 })
 
-const mostCommonDigit = function(str) {
+const mostCommonDigit = function(str, keep) {
+    // this can be simplified massively
     const strMinusZeros = str.replace(/0/g, '')
-    return (strMinusZeros.length > (str.length / 2.0)) ? '1' : '0'
-}
-
-const getGammaRate = function(grid) {
-    let finalNumber = ''
-    for (let i = 0; i < grid[0].length; i += 1) {
-        const column = grid.reduce((acc, cur) => acc + cur[i], '')
-        finalNumber += mostCommonDigit(column)
+    if (strMinusZeros.length == str.length / 2.0) {
+        return keep
     }
-    return finalNumber
+    const oppositeOfKeep = keep === '1' ? '0' : '1'
+    return (strMinusZeros.length > (str.length / 2.0)) ? keep : oppositeOfKeep
 }
 
-const getEpsilonRate = function(gammaRate) {
-    return gammaRate.split('').reduce(
-        (acc, cur) => acc + (cur === '1' ? '0' : '1'),
-        ''
-    )
+const getRating = function(grid, keep) {
+    let i = 0
+    let workingCopyGrid = [...grid]
+    while (i <= grid[0].length) {
+        const column = workingCopyGrid.reduce((acc, cur) => acc + cur[i], '')
+        const mostCommon = mostCommonDigit(column, keep)
+        workingCopyGrid = workingCopyGrid.filter((row) => row[i] === mostCommon)
+        if (workingCopyGrid.length === 1) {
+            break
+        }
+        i += 1
+        
+    }
+    return workingCopyGrid[0].join('')
 }
 
 file.on('close', () => {
-    const gammaRate = getGammaRate(grid)
-    const epsilonRate = getEpsilonRate(gammaRate)
-    console.log(gammaRate, epsilonRate)
-
-    console.log('Part 1: Position calculation =', parseInt(gammaRate, 2) * parseInt(epsilonRate, 2))
+    const oxygenRating = getRating(grid, '1')
+    const co2Rating = getRating(grid, '0')
+    console.log('Part 2: life support rating =', parseInt(oxygenRating, 2) * parseInt(co2Rating, 2))
 })
