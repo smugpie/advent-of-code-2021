@@ -1,5 +1,4 @@
 import fs from 'fs'
-import { endianness } from 'os';
 import readline from 'readline'
 
 var file = readline.createInterface({
