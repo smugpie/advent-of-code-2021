@@ -23,7 +23,6 @@ file.on('close', () => {
             return age - 1
         })
         fishAges = [...nextFishAges, ...newFish]
-        console.log(fishAges)
     }
     console.log('Part 1 =', fishAges.length)
 })
