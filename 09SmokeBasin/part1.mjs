@@ -19,12 +19,12 @@ file.on('close', () => {
     for (let y = 1; y < map.length - 1; y += 1) {
         for (let x = 1; x < map[y].length - 1; x += 1) {
             const point = +map[y][x]
-            if (point < +map[y-1][x] &&
-                point < +map[y+1][x] &&
-                point < +map[y][x+1] &&
-                point < +map[y][x-1]) {
-                    sum += point + 1
-                }
+            if (point < +map[y - 1][x] &&
+                point < +map[y + 1][x] &&
+                point < +map[y][x + 1] &&
+                point < +map[y][x - 1]) {
+                sum += point + 1
+            }
         }
     }
     console.log('Part 1 =', sum)
